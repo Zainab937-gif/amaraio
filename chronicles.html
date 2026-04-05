@@ -1,0 +1,89 @@
+---
+layout: default
+---
+
+<div class="page-header">
+  <div class="container">
+    <div class="page-header-eyebrow">Published every Monday</div>
+    <h1>The <em>Chronicles</em></h1>
+  </div>
+</div>
+
+{% assign all_tags = "" %}
+{% for post in site.posts %}
+  {% if post.tag %}
+    {% assign all_tags = all_tags | append: post.tag | append: "," %}
+  {% endif %}
+{% endfor %}
+{% assign tag_list = all_tags | split: "," | uniq | sort %}
+
+{% if tag_list.size > 0 %}
+<div class="filter-bar">
+  <div class="container">
+    <div class="filter-row" id="filter-row">
+      <button class="filter-btn active" data-tag="all">All</button>
+      {% for tag in tag_list %}
+        {% unless tag == "" %}
+          <button class="filter-btn" data-tag="{{ tag }}">{{ tag }}</button>
+        {% endunless %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<main class="section">
+  <div class="container">
+    <div class="posts-grid" id="posts-grid">
+      {% assign posts_to_show = paginator.posts | default: site.posts %}
+      {% for post in posts_to_show %}
+        <article class="post-card {% if forloop.first %}post-card--featured{% endif %}" data-tag="{{ post.tag }}">
+          {% if post.tag %}<div class="post-card-tag">{{ post.tag }}</div>{% endif %}
+          <h2 class="post-card-title">
+            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          </h2>
+          {% if post.excerpt %}
+            <p class="post-card-excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+          {% endif %}
+          <div class="post-card-meta">
+            <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%d %B %Y" }}</time>
+            <span>·</span>
+            {% if post.read_time %}<span>{{ post.read_time }}</span>{% else %}<span>{{ post.content | number_of_words | divided_by: 200 | plus: 1 }} min read</span>{% endif %}
+          </div>
+        </article>
+      {% else %}
+        <p class="loading-msg">No posts yet — check back soon!</p>
+      {% endfor %}
+    </div>
+
+    {% if paginator.total_pages > 1 %}
+    <div class="pagination">
+      {% if paginator.previous_page %}
+        <a href="{{ paginator.previous_page_path | relative_url }}" class="btn btn-ghost">← Newer</a>
+      {% endif %}
+      <span class="pagination-info">Page {{ paginator.page }} of {{ paginator.total_pages }}</span>
+      {% if paginator.next_page %}
+        <a href="{{ paginator.next_page_path | relative_url }}" class="btn btn-ghost">Older →</a>
+      {% endif %}
+    </div>
+    {% endif %}
+
+  </div>
+</main>
+
+<script>
+  var filterRow = document.getElementById('filter-row');
+  var cards = document.querySelectorAll('.post-card');
+  if (filterRow) {
+    filterRow.addEventListener('click', function(e) {
+      var btn = e.target.closest('.filter-btn');
+      if (!btn) return;
+      filterRow.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      var tag = btn.dataset.tag;
+      cards.forEach(function(card) {
+        card.style.display = (tag === 'all' || card.dataset.tag === tag) ? '' : 'none';
+      });
+    });
+  }
+</script>

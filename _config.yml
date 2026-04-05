@@ -1,0 +1,45 @@
+# =============================================
+#  Site Configuration
+# =============================================
+
+title: "Amara Hafeez"
+tagline: "Writer. Wanderer. Weekly chronicler."
+description: "Personal site and blog of Amara Hafeez — essays on life, books, travel and ideas published every week."
+author: "Amara Hafeez"
+email: "amarahafeez100@gmail.com"
+baseurl: ""
+url: "https://amarahafeez.github.io"
+
+# Social (leave blank to hide)
+twitter_username:
+github_username:
+
+# Blog settings
+blog_title: "Chronicles"
+blog_description: "Weekly writing — essays, observations, and long-form reflections."
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: /chronicles/:title/
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+  - jekyll-paginate
+
+paginate: 9
+paginate_path: "/chronicles/page:num/"
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+sass:
+  style: compressed
+
+exclude:
+  - README.md
+  - node_modules
+  - vendor
