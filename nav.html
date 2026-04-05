@@ -1,0 +1,12 @@
+<nav class="nav" id="nav">
+  <a href="{{ '/' | relative_url }}" class="nav-logo">AH</a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="{{ '/' | relative_url }}"{% if page.url == '/' %} class="active"{% endif %}>Home</a></li>
+    <li><a href="{{ '/about/' | relative_url }}"{% if page.url contains '/about' %} class="active"{% endif %}>About</a></li>
+    <li><a href="{{ '/chronicles/' | relative_url }}"{% if page.url contains '/chronicles' %} class="active"{% endif %}>Chronicles</a></li>
+    <li><a href="{{ '/contact/' | relative_url }}"{% if page.url contains '/contact' %} class="active"{% endif %}>Contact</a></li>
+  </ul>
+  <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
